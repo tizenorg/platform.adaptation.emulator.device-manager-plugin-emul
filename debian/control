@@ -1,0 +1,19 @@
+Source: device-manager-plugin-maru
+Section: libs
+Priority: extra
+Maintainer: Dohyung Hong <don.hong@samsung.com>
+Uploaders: Dohyung Hong <don.hong@samsung.com>
+Build-Depends: debhelper (>= 5), libdevman-plugin-dev
+Standards-Version: 3.7.2
+
+Package: device-manager-plugin-maru
+Section: libs
+Architecture: i386
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Samsung linux platform device manager plugin
+
+Package: device-manager-plugin-maru-dbg
+Section: debug
+Architecture: i386
+Depends: ${shlibs:Depends}, ${misc:Depends}, device-manager-plugin-maru (= ${Source-Version})
+Description: Samsung linux platform device manager plugin (unstripped)
