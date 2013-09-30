@@ -1,6 +1,6 @@
 Name:       device-manager-plugin-maru
 Summary:    device-manager-plugin-maru
-Version: 0.0.15
+Version: 0.0.16
 Release:    1
 Group:      TO_BE/FILLED_IN
 License:    TO_BE/FILLED_IN
@@ -25,6 +25,8 @@ make
 
 %install
 %make_install
+mkdir -p %{buildroot}/usr/share/license
+cp LICENSE.APLv2 %{buildroot}/usr/share/license/%{name}
 
 %post
 /sbin/ldconfig
@@ -35,4 +37,4 @@ make
 %files
 %defattr(-,root,root,-)
 %{_libdir}/libslp_devman_plugin.so
-
+/usr/share/license/%{name}
