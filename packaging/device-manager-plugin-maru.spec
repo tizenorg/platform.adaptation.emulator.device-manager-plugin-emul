@@ -1,9 +1,9 @@
 Name:       device-manager-plugin-maru
-Summary:    device-manager-plugin-maru
+Summary:    Device manager for emulator
 Version: 0.0.16
 Release:    1
-Group:      TO_BE/FILLED_IN
-License:    TO_BE/FILLED_IN
+Group:      System/Libraries
+License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 Source1001: packaging/device-manager-plugin-maru.manifest
 Requires(post): /sbin/ldconfig
@@ -12,7 +12,7 @@ BuildRequires:  cmake
 BuildRequires:  pkgconfig(devman_plugin)
 
 %description
-device-manager-plugin-maru.
+Device manager for emulator
 
 %prep
 %setup -q
