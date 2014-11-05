@@ -21,6 +21,7 @@
 
 /*
  * 2012-03-05 Dohyung Hong <don.hong@samsung.com> Changed package name for the maru board of emulator
+ * 2014-11-05 Jinhyung Choi <jinhyung2.choi@samsung.com> Changed package name for the emulator
  */
 
 #include <unistd.h>

@@ -3,7 +3,7 @@ PROJECT(slp_devman_plugin C)
 
 SET(SRCS
 	src/device_manager_io.c
-	src/device_manager_plugin_maru.c)
+	src/device_manager_plugin_emul.c)
 
 IF("${CMAKE_BUILD_TYPE}" STREQUAL "")
 	SET(CMAKE_BUILD_TYPE "Release")
@@ -16,7 +16,7 @@ SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
 SET(CMAKE_C_FLAGS_RELEASE "-O2")
 
 INCLUDE(FindPkgConfig)
-pkg_check_modules(pkgs REQUIRED devman_plugin)
+pkg_check_modules(pkgs REQUIRED devman_plugin dlog)
 
 FOREACH(flag ${pkgs_CFLAGS})
 	SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")

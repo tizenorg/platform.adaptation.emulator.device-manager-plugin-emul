@@ -117,7 +117,7 @@ binary-arch: build install
 	dh_installman
 	dh_link
 #	dh_strip
-	dh_strip --dbg-package=device-manager-plugin-maru-dbg
+	dh_strip --dbg-package=device-manager-plugin-emul-dbg
 	dh_compress
 	dh_fixperms
 #	dh_perl
