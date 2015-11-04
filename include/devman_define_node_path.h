@@ -87,4 +87,14 @@
 #define CPUFREQ_SCALING_MAX_FREQ_PATH	"/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq"
 #define CPUFREQ_SCALING_MIN_FREQ_PATH	"/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"
 
+int sys_get_int(char *fname, int *val);
+int sys_set_int(char *fname, int val);
+int sys_get_str(char *fname, char* str);
+int sys_set_str(char *fname, char *val);
+int sys_get_node(char *path, char *node);
+int sys_get_int_wo_convert(char *path, int *value);
+int sys_set_int_wo_convert(char *path, int value);
+
+int sys_check_node(char *path);
+
 #endif /* __DEVMAN_DEFINE_NODE_PATH_H */

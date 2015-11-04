@@ -126,6 +126,7 @@ struct display_info
 int lcd_index;
 struct display_info disp_info[DISP_MAX];
 
+/*
 int OEM_sys_get_backlight_brightness_by_lux(unsigned int lux, enum lux_status status)
 {
 	static int brightness = -1;
@@ -181,6 +182,66 @@ int OEM_sys_get_backlight_brightness_by_lux(unsigned int lux, enum lux_status st
 
 	return brightness;
 }
+*/
+int OEM_sys_get_brightness(unsigned int lux)
+{
+	const unsigned int Nr_Table[] = {
+		0, 5, 5, 6, 6, 7, 8, 8, 9, 9,
+		10, 11, 12, 13, 13, 14, 15, 16, 18, 19,
+		20, 22, 23, 25, 29, 32, 36, 39, 43, 46,
+		50, 54, 57, 61, 64, 68, 71, 75, 79, 82,
+		86, 89, 93, 96, 100, 119, 138, 157, 176, 195,
+		214, 233, 252, 271, 290, 310, 329, 348, 367, 386,
+		405, 424, 443, 462, 481, 500, 571, 643, 714, 786,
+		857, 929, 1000, 1100, 1200, 1300, 1400, 1500, 1667, 1833,
+		2000, 2250, 2500, 2750, 3000, 3333, 3667, 4000, 4083, 4167,
+		4250, 4333, 4417, 4500, 4583, 4667, 4750, 4833, 4917, 5000,
+	};
+	int brightness;
+
+	for (brightness=0; (lux > Nr_Table[brightness]) && (brightness < 99); brightness++);
+
+	return brightness;
+}
+
+int OEM_sys_get_backlight_brightness_by_lux(int lux, int *value)
+{
+	const unsigned int Max_Table[] = {
+		15, 15, 15, 15, 16, 17, 18, 20, 21, 23,
+		26, 28, 31, 33, 35, 38, 40, 44, 48, 51,
+		55, 60, 65, 70, 81, 92, 103, 114, 125, 136,
+		147, 158, 169, 180, 190, 201, 212, 223, 234, 245,
+		256, 267, 278, 289, 300, 357, 414, 471, 529, 586,
+		643, 700, 757, 814, 871, 929, 986, 1043, 1100, 1157,
+		1214, 1271, 1329, 1386, 1443, 1500, 1678, 1855, 2033, 2211,
+		2389, 2566, 2744, 2977, 3209, 3442, 3674, 3907, 4274, 4642,
+		5009, 5215, 5422, 5628, 5834, 6057, 6279, 6502, 6585, 6669,
+		6752, 6835, 6919, 7002, 7085, 7169, 7252, 7335, 7419, 7502,
+	};
+	const unsigned int Min_Table[] = {
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 1, 2, 2, 3,
+		3, 4, 4, 5, 5, 6, 6, 7, 7, 8,
+		8, 9, 9, 10, 10, 12, 14, 16, 17, 19,
+		21, 23, 25, 27, 29, 30, 32, 34, 36, 38,
+		40, 42, 43, 45, 47, 49, 60, 70, 81, 91,
+		102, 112, 123, 140, 157, 174, 191, 208, 240, 271,
+		303, 356, 409, 461, 514, 592, 670, 748, 769, 790,
+		811, 832, 853, 874, 895, 916, 937, 958, 979, 1000,
+	};
+	static int brightness = -1;
+
+	if (brightness == -1) {
+		brightness = OEM_sys_get_brightness(lux);
+		devmgr_log("lux: %d, brightness: %d.\n", lux, brightness+1);
+	} else if ((lux > Max_Table[brightness]) || (lux < Min_Table[brightness])) {
+		brightness = OEM_sys_get_brightness(lux);
+		devmgr_log("lux: %d, brightness: %d.\n", lux, brightness+1);
+	}
+	*value = brightness+1;
+	return 0;
+}
 
 static int OEM_sys_display_info(struct display_info *disp_info)
 {
@@ -194,7 +255,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 	index = 0;
 	dirp = opendir(bl_path);
 	if (dirp) {
-		while(dent = readdir(dirp)) {
+		while((dent = readdir(dirp))) {
 			if (index >= DISP_MAX) {
 				devmgr_log("supports %d display node", DISP_MAX);
 				break;
@@ -217,7 +278,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 	index = 0;
 	dirp = opendir(lcd_path);
 	if (dirp) {
-		while(dent = readdir(dirp)) {
+		while((dent = readdir(dirp))) {
 			if (index >= DISP_MAX) {
 				devmgr_log("supports %d display node", DISP_MAX);
 				break;
@@ -326,29 +387,7 @@ int OEM_sys_get_backlight_brightness(int index, int *value, int power_saving)
 	return ret;
 }
 
-int OEM_sys_set_backlight_dimming(int index, int value)
-{
-    /*
-    int ret = -1;
-    char path[MAX_NAME+1];
-
-    if (index >= DISP_MAX) {
-        devmgr_log("supports %d display node", DISP_MAX);
-        return ret;
-    }
-
-    snprintf(path, MAX_NAME, BACKLIGHT_DIMMING_PATH, disp_info[index].lcd_name);
-    devmgr_log("path[%s]value[%d]", path, value);
-    ret = sys_set_int(path, value);
-    return ret;
-    */
-
-    // TODO : value is only 1
-    return OEM_sys_set_backlight_brightness(index, 1, 0/*power_saving*/);
-
-}
-
-int OEM_sys_set_backlight_brightness(int index, int value, int power_saving)
+static int OEM_sys_set_backlight_brightness(int index, int value, int power_saving)
 {
 	int ret = -1;
 	char path[MAX_NAME+1];
@@ -384,6 +423,28 @@ int OEM_sys_set_backlight_brightness(int index, int value, int power_saving)
 	ret = sys_set_int(path, value);
 
 	return ret;
+}
+
+int OEM_sys_set_backlight_dimming(int index, int value)
+{
+    /*
+    int ret = -1;
+    char path[MAX_NAME+1];
+
+    if (index >= DISP_MAX) {
+        devmgr_log("supports %d display node", DISP_MAX);
+        return ret;
+    }
+
+    snprintf(path, MAX_NAME, BACKLIGHT_DIMMING_PATH, disp_info[index].lcd_name);
+    devmgr_log("path[%s]value[%d]", path, value);
+    ret = sys_set_int(path, value);
+    return ret;
+    */
+
+    // TODO : value is only 1
+    return OEM_sys_set_backlight_brightness(index, 1, 0/*power_saving*/);
+
 }
 
 int OEM_sys_get_backlight_acl_control(int index, int *value)
