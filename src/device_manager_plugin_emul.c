@@ -261,7 +261,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 				break;
 			}
 
-			if (!strcmp(".", dent->d_name) || !strcmp("..", dent->d_name))
+			if (!strncmp(".", dent->d_name, sizeof(".")) || !strncmp("..", dent->d_name, sizeof("..")))
 				continue;
 			else {
 				strncpy(disp_info[index].bl_name, dent->d_name, sizeof(disp_info[index].bl_name) - 1);
@@ -284,7 +284,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 				break;
 			}
 
-			if (!strcmp(".", dent->d_name) || !strcmp("..", dent->d_name))
+			if (!strncmp(".", dent->d_name, sizeof(".")) || !strncmp("..", dent->d_name, sizeof("..")))
 				continue;
 			else {
 				strncpy(disp_info[index].lcd_name, dent->d_name, sizeof(disp_info[index].lcd_name) - 1);
