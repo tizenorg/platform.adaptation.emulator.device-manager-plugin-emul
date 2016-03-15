@@ -10,6 +10,7 @@ Requires(postun):   /sbin/ldconfig
 BuildRequires:      cmake
 BuildRequires:      pkgconfig(dlog)
 BuildRequires:      pkgconfig(devman_plugin)
+BuildRequires:      pkgconfig(hwcommon)
 
 %description
 Emulator plugin for libdevice-node.
@@ -33,7 +34,9 @@ make
 /sbin/ldconfig
 
 %files
+%license LICENSE
 %defattr(-,root,root,-)
 %manifest device-manager-plugin-emul.manifest
 %{_libdir}/libslp_devman_plugin.so
+%{_libdir}/hw/*.so
 
