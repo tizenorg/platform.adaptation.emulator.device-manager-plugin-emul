@@ -1,6 +1,6 @@
 Name:               device-manager-plugin-emul
 Summary:            Device manager plugin for emulator
-Version:            0.0.16
+Version:            0.0.17
 Release:            1
 Group:              SDK/Other
 License:            Apache-2.0
