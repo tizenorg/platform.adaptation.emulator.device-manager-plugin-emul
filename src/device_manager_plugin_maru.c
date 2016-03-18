@@ -184,6 +184,7 @@ int OEM_sys_get_backlight_brightness_by_lux(unsigned int lux, enum lux_status st
 static int OEM_sys_display_info(struct display_info *disp_info)
 {
 	struct dirent *dent;
+	struct dirent entry;
 	DIR *dirp;
 	int i, index;
 	const char * bl_path = BACKLIGHT_PATH;
@@ -193,7 +194,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 	index = 0;
 	dirp = opendir(bl_path);
 	if (dirp) {
-		while(dent = readdir(dirp)) {
+		while (!readdir_r(dirp, &entry, &dent)) {
 			if (index >= DISP_MAX) {
 				devmgr_log("supports %d display node", DISP_MAX);
 				break;
@@ -216,7 +217,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 	index = 0;
 	dirp = opendir(lcd_path);
 	if (dirp) {
-		while(dent = readdir(dirp)) {
+		while (!readdir_r(dirp, &entry, &dent)) {
 			if (index >= DISP_MAX) {
 				devmgr_log("supports %d display node", DISP_MAX);
 				break;
