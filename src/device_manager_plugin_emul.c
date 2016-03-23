@@ -375,7 +375,7 @@ int OEM_sys_get_backlight_brightness(int index, int *value, int power_saving)
 			devmgr_log("Can't read max_brightness node[%s]", path);
 			return ret;
 		}
-		pwr_saving_offset = (PWR_SAVING_CANDELA_CRITERION * max_brightness / MAX_CANDELA_CRITERION) + 0.5;
+		pwr_saving_offset = (int)((PWR_SAVING_CANDELA_CRITERION * max_brightness / MAX_CANDELA_CRITERION) + 0.5);
 
 		if (*value > max_brightness - pwr_saving_offset)
 			*value = max_brightness;
@@ -410,7 +410,7 @@ static int OEM_sys_set_backlight_brightness(int index, int value, int power_savi
 			devmgr_log("Can't read max_brightness node[%s]", path);
 			return ret;
 		}
-		pwr_saving_offset = (PWR_SAVING_CANDELA_CRITERION * max_brightness / MAX_CANDELA_CRITERION) + 0.5;
+		pwr_saving_offset = (int)((PWR_SAVING_CANDELA_CRITERION * max_brightness / MAX_CANDELA_CRITERION) + 0.5);
 
 		if (value < pwr_saving_offset)
 			value = 0;
