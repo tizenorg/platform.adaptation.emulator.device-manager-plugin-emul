@@ -256,7 +256,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 	index = 0;
 	dirp = opendir(bl_path);
 	if (dirp) {
-		while (!readdir_r(dirp, &entry, &dent)) {
+		while (!readdir_r(dirp, &entry, &dent) && dent) {
 			if (index >= DISP_MAX) {
 				devmgr_log("supports %d display node", DISP_MAX);
 				break;
@@ -279,7 +279,7 @@ static int OEM_sys_display_info(struct display_info *disp_info)
 	index = 0;
 	dirp = opendir(lcd_path);
 	if (dirp) {
-		while (!readdir_r(dirp, &entry, &dent)) {
+		while (!readdir_r(dirp, &entry, &dent) && dent) {
 			if (index >= DISP_MAX) {
 				devmgr_log("supports %d display node", DISP_MAX);
 				break;
