@@ -11,6 +11,8 @@ BuildRequires:      cmake
 BuildRequires:      pkgconfig(dlog)
 BuildRequires:      pkgconfig(devman_plugin)
 BuildRequires:      pkgconfig(hwcommon)
+BuildRequires:      pkgconfig(glib-2.0)
+BuildRequires:      pkgconfig(gio-2.0)
 
 %description
 Emulator plugin for libdevice-node.
